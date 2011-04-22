@@ -1,0 +1,193 @@
+<div class="search switcher">
+<label for="config-search-form"><?php echo $this->__('Filter configuration options:') ?></label>
+
+<form action="#" id="config-search-form" onSubmit="handlerFunction(); return false;">
+    <input id="config-search-form-query" name="query" class="input-text required-entry" onkeyup="searchHandlerChange()" size="20" />
+    <input type="button" onClick="handlerFunction()" value="<?php echo $this->__('Search') ?>" />
+</form>
+
+<?php if(false): ?>
+<script type="text/javascript">
+function handlerFunction(){
+    var request = new Ajax.Updater(
+        'config-search-results',
+        '<?php echo $this->getUrl('adminhtml/adminsearch_index/search') ?>',
+        {
+            method: 'post',
+            parameters: Form.serialize($('config-search-form'))
+        });
+}
+</script>
+
+<?php endif ?>
+
+<style type="text/css">
+.adminhtml_search_highlight {
+background-color: #FFCCCC !important;
+}
+</style>
+<script type="text/javascript">
+
+var searchLabels = <?php echo $this->getConfigsObject(); ?>;
+
+
+function searchSearch( query )
+{
+	query = query.toLowerCase();
+
+	results = { 
+		fields: { sections: new Hash(), group_ids: new Hash(), label_ids: new Hash() }, 
+		groups: { sections: new Hash(), group_ids: new Hash() } 
+	}
+	
+	var search = searchLabels.fields;
+	for(member in search)
+	{
+		if(search[member].toLowerCase().match(query) != null)
+		{
+			split_ = member.split('/');
+			results.fields.sections.set(split_[3], 1);
+			results.fields.group_ids.set(split_[3] + '_' + split_[5], 1);
+			results.fields.label_ids.set(split_[3] + '_' + split_[5] + '_' + split_[7], 1);
+		}
+	}
+	
+	var search = searchLabels.groups;
+	for(member in search)
+	{
+		if(search[member].toLowerCase().match(query) != null)
+		{
+			split_ = member.split('/');
+			results.groups.sections.set(split_[3], 1);
+			results.groups.group_ids.set(split_[3] + '_' + split_[5], 1);
+		}
+	}
+	
+	return results;
+}
+
+
+Hash.fromQueryString = function(string) {
+  var hash  = new Hash();
+  var array = string.gsub(/^#/, '').split(/=|&/);
+
+  for (var i = 0; i < array.length; i+=2) {
+    if(array[i +1] != undefined) {
+      hash.set(array[i], array[i + 1]);
+    }
+  }
+
+  return hash;
+}
+
+document.observe("dom:loaded", function() {
+	hash = Hash.fromQueryString(location.hash);
+	if(hash.get('search')) {
+		$('config-search-form-query').setValue(hash.get('search'));
+		handlerFunction();
+	} 
+});
+
+function clearStuff() {
+		$$('#system_config_tabs dd').invoke('show');
+		$$('#system_config_tabs li').invoke('show');
+		
+		$$('.adminhtml_search_highlight').each(function(x){ x.removeClassName('adminhtml_search_highlight');});
+		
+		var sections = $$("#system_config_tabs a[href*='#search']");
+		sections.each(function(x){
+			x.writeAttribute('href', x.readAttribute('href').gsub(/#.*/, ''));
+		});
+		
+		location.hash = '';
+}
+
+function searchHandlerChange() {
+	if( $('config-search-form-query').getValue() == '' ) {
+		clearStuff();
+	}
+}
+function handlerFunction(){
+	if($('config-search-form-query').getValue() == '') {
+		searchHandlerChange();
+		return;
+	}
+
+	results = searchSearch($('config-search-form-query').getValue());
+	
+	
+				clearStuff();
+				
+				$$('#system_config_tabs dd').invoke('hide');
+				$$('#system_config_tabs li').invoke('hide');
+	
+	json = results.fields;			
+				json.sections.each( function(value) {
+					value = value.key;
+					value = "/system_config/edit/section/"+value+"/";
+					var sections = $$("#system_config_tabs a[href*='"+value+"']");
+					
+					sections.each(function(x) {
+						if(!x.readAttribute('href').match('#search')) { 
+							x.writeAttribute('href',x.readAttribute('href')+'#search='+$('config-search-form-query').getValue());
+						}
+						anc =  x.ancestors();
+						
+						anc[0].show();
+						anc[2].show();
+				   }); 
+			    } );
+			    
+			    json.group_ids.each( function(value) {
+			    	value = value.key;
+			    	 if($(value+'-head')){
+			    	 $(value+'-state').writeAttribute('value', '1');
+			    	 Fieldset.applyCollapse(value);
+			    	 }
+			    });
+			    
+			    json.label_ids.each( function(value) {
+			    	 value = value.key;
+			    	 if($(value)){
+			    	 	var t = $(value).ancestors();
+			    	 	t = t[0].ancestors();
+			    	 	t = t[0];
+			    	 	t.addClassName('adminhtml_search_highlight');
+			    	 }
+			   	});
+			
+	json = results.groups;
+	
+				json.sections.each( function(value) {
+					value = value.key;
+					value = "/system_config/edit/section/"+value+"/";
+					var sections = $$("#system_config_tabs a[href*='"+value+"']");
+					
+					sections.each(function(x) {
+						if(!x.readAttribute('href').match('#search')) {
+							x.writeAttribute('href',x.readAttribute('href')+'#search='+$('config-search-form-query').getValue());
+						}
+						anc =  x.ancestors();
+						
+						anc[0].show();
+						anc[2].show();
+				   }); 
+			    } );
+			    
+			    json.group_ids.each( function(value) {
+			    	value = value.key;
+			    	 if($(value+'-head')){
+			    	 $(value+'-state').writeAttribute('value', '1');
+			    	 Fieldset.applyCollapse(value);
+			    	 $(value).addClassName('adminhtml_search_highlight');
+			    	 }
+			    });
+			    
+	location.hash = '#search='+$('config-search-form-query').getValue();
+}
+</script>
+
+<div id="config-search-results">
+</div>
+
+</div>

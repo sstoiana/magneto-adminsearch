@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Magneto_Adminsearch>
+            <version>0.1.0</version>
+        </Magneto_Adminsearch>
+    </modules>
+    <adminhtml>
+        <routers>
+            <debug>
+                <use>standard</use>
+                <args>
+                    <module>Magneto_AdminSearch</module>
+                    <frontName>debug</frontName>
+                </args>
+            </debug>
+        </routers>
+        <layout>
+            <updates>
+                <adminsearch>
+                    <file>adminsearch.xml</file>
+                </adminsearch>
+            </updates>
+        </layout>
+    </adminhtml>
+    <global>
+        <blocks>
+            <core>
+                <!-- <rewrite> -->
+                <!--     <template>Magneto_Debug_Block_Abstract</template> -->
+                <!-- </rewrite> -->
+            </core>
+            <adminsearch>
+                <class>Magneto_Adminsearch_Block</class>
+            </adminsearch>
+        </blocks>
+        <helpers>
+            <debug>
+                <class>Magneto_Adminsearch_Helper</class>
+            </debug>
+        </helpers>
+
+    </global>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Magneto_Adminsearch before="Mage_Adminhtml">Magneto_Adminsearch_Adminhtml</Magneto_Adminsearch>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
