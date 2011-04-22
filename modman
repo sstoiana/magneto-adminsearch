@@ -1,4 +1,4 @@
-code/Adminsearch app/code/community/Magneto/Appsearch
-design/adminsearch.xml app/design/adminhtml/default/layout/adminsearch.xml
-design/adminsearch app/design/adminhtml/default/layout/adminsearch
+code/Adminsearch app/code/community/Magneto/Adminsearch
+design/layout/adminsearch.xml app/design/adminhtml/default/default/layout/adminsearch.xml
+design/template/adminsearch app/design/adminhtml/default/default/template/adminsearch
 Magneto_Adminsearch.xml app/etc/modules/Magneto_Adminsearch.xml
