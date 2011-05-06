@@ -10,7 +10,8 @@ class Magneto_Adminsearch_Block_Search extends Mage_Adminhtml_Block_Widget
 		{
 			
 			try{
-				$parent = $parent->getParent();
+				$x = $parent->xpath('..');
+				if(isset($x[0])) { $parent = $x[0]; } else { throw new Exception(); }
 			} catch (Exception $e) { $parent = null; continue;}
 			
 			$path = $parent->getName().'/'.$path;	
