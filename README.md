@@ -1,5 +1,7 @@
 # Magento Admin Configuration Search widget
 
+This extensions allows quick access to configuration options in Magento's admin panel
+
 ## INSTALLATION 
 
 ### Via Modman
@@ -19,6 +21,7 @@ Soon we'll make available a Magento extension package that can be installed via 
 ## FEATURES 
 
  - Search configuration items and sections in Magento's Configuration admin page
+ - Works with translated admin options (you can search for "Wochenende" in German instead of "Weekend Days" in English)
 
 
 
