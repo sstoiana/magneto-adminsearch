@@ -6,7 +6,7 @@ This extensions allows quick access to configuration options in Magento's admin 
 
 ### Via Modman
  - Modman required: <http://code.google.com/p/module-manager/>
- - Magento patch to allow symlinks for templates dir: <http://www.tonigrigoriu.com/magento/magento-how-to-fix-template-path-errors-when-using-symlinks/> (required if you choose to use modman installation)
+ - Magento patch to allow symlinks for templates dir: <http://www.tonigrigoriu.com/magento/magento-how-to-fix-template-path-errors-when-using-symlinks/> (required if you choose to use modman installation) OR set "Allow Symlinks" under System / Configuration / Developer / Template Settings in Magento 1.5.0.0 or later
  - Install via modman (for details consult modman website):
 
         cd <magento root folder>
