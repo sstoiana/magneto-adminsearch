@@ -16,7 +16,7 @@ This extensions allows quick access to configuration options in Magento's admin 
  - Make sure you've cleaned Magento's cache to enable the new module
 
 ### Via Magento Connect
-Magento Connect extension package is available [here[http://www.magentocommerce.com/magento-connect/sstoiana/extension/6715/magnetoadminsearch]].
+Magento Connect extension package is available here: http://www.magentocommerce.com/magento-connect/sstoiana/extension/6715/magnetoadminsearch 
 
 ## FEATURES 
 
